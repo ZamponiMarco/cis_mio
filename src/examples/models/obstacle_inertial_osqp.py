@@ -12,16 +12,13 @@ ACCEL_UPPER = 0.05
 POINT_LOWER = 0.0
 POINT_UPPER = 1.0
 TIME_STEP = 0.2
-HORIZON = 5
 
 obstacles = [
     from_interval(np.array([0.1, 0.4]), np.array([0.7, 0.5])),
 ]
 
 
-def solve_mpc_osqp(initial_point, fixed_delta):
-    # Constants
-    horizon = HORIZON
+def solve_mpc_osqp(initial_point, fixed_delta, horizon):
 
     # State variables
     initial_x = cp.Parameter()  # Define the starting parameter for x
@@ -123,11 +120,11 @@ def solve_mpc_osqp(initial_point, fixed_delta):
     delta_obs_0_2[0].value = (1 if initial_point[1] <= 0.4 else 0)
     delta_obs_0_3[0].value = (1 if initial_point[1] >= 0.5 else 0)
 
-    for step in range(HORIZON):
+    for step in range(horizon):
         delta_obs_0_0[step + 1].value = fixed_delta[step]
-        delta_obs_0_1[step + 1].value = fixed_delta[HORIZON + step]
-        delta_obs_0_2[step + 1].value = fixed_delta[2 * HORIZON + step]
-        delta_obs_0_3[step + 1].value = fixed_delta[3 * HORIZON + step]
+        delta_obs_0_1[step + 1].value = fixed_delta[horizon + step]
+        delta_obs_0_2[step + 1].value = fixed_delta[2 * horizon + step]
+        delta_obs_0_3[step + 1].value = fixed_delta[3 * horizon + step]
 
     data = problem.get_problem_data(cp.OSQP)[0]
 
@@ -149,19 +146,3 @@ def solve_mpc_osqp(initial_point, fixed_delta):
     results = solver.solve()
 
     return results
-
-if __name__ == "__main__":
-    # Example usage
-    initial_point = [0.11, 0.11, 0, 0]
-    fixed_delta = [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
-    results = solve_mpc_osqp(initial_point, fixed_delta)
-    print(results.x)
-    print('x:', results.x[4:5*HORIZON + 5:6])
-    print('y:', results.x[5:5*HORIZON + 6:6])
-    print('v_x:', results.x[2:5*HORIZON + 3:6])
-    print('v_y:', results.x[3:5*HORIZON + 4:6])
-    print('a_x:', results.x[0:5*HORIZON + 1:6])
-    print('a_y:', results.x[1:5*HORIZON + 2:6])
-    print(results.info.run_time)
-    print(results.info.status)
-    print(results.info.obj_val)

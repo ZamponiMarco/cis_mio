@@ -13,13 +13,13 @@ from examples.models.obstacle_inertial_miosqp import solve_mpc_miosqp
 from examples.models.obstacle_inertial_osqp import solve_mpc_osqp
 from tree.tree import BinaryTree
 
-TIMINGS_DATA_FILE = 'resources/verified_inertial/timings_data.csv'
+TIMINGS_DATA_FILE = 'resources/verified_inertial_reduced/timings_data.csv'
 
 POINTS = 1000
 
-TREE_FILE_VERIFIED = 'resources/verified_inertial/tree.pkl'
-TREE_FILE_DT = 'resources/verified_inertial/simple_tree.pkl'
-TREE_FILE_RF = 'resources/verified_inertial/forest_tree.pkl'
+TREE_FILE_VERIFIED = 'resources/verified_inertial_reduced/tree.pkl'
+TREE_FILE_DT = 'resources/verified_inertial_reduced/simple_tree.pkl'
+TREE_FILE_RF = 'resources/verified_inertial_reduced/forest_tree.pkl'
 
 if __name__ == '__main__':
     seed = random.randint(0, 2000000000)
@@ -48,7 +48,7 @@ if __name__ == '__main__':
         point = tree.initial_polyhedron.random_point()
 
         try:
-            mip_sol = solve_mpc_miosqp(point, 5)
+            mip_sol = solve_mpc_miosqp(point, 2)
         except TypeError as e:
             traceback.print_exc()
             continue
@@ -58,11 +58,11 @@ if __name__ == '__main__':
 
         i += 1
 
-        p_sol = solve_mpc_osqp(point, class_to_label(tree.predict(point), tree.output_size), 5)
+        p_sol = solve_mpc_osqp(point, class_to_label(tree.predict(point), tree.output_size), 2)
 
-        p_sol_dt = solve_mpc_osqp(point, clf_dt.predict([point])[0], 5)
+        p_sol_dt = solve_mpc_osqp(point, clf_dt.predict([point])[0], 2)
 
-        p_sol_rf = solve_mpc_osqp(point, clf_rf.predict([point])[0], 5)
+        p_sol_rf = solve_mpc_osqp(point, clf_rf.predict([point])[0], 2)
 
         row = [el for el in point] + \
               [

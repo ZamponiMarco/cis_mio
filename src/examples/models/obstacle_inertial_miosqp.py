@@ -12,15 +12,12 @@ ACCEL_UPPER = 0.05
 POINT_LOWER = 0.0
 POINT_UPPER = 1.0
 TIME_STEP = 0.2
-HORIZON = 5
 
 obstacles = [
     from_interval(np.array([0.1, 0.4]), np.array([0.7, 0.5])),
 ]
 
-def solve_mpc_miosqp(initial_point):
-    # Constants
-    horizon = HORIZON
+def solve_mpc_miosqp(initial_point, horizon):
 
     # State variables
     initial_x = cp.Parameter()  # Define the starting parameter for x
@@ -126,7 +123,7 @@ def solve_mpc_miosqp(initial_point):
     uA = np.concatenate((data[s.B], data[s.G]))
     lA = np.concatenate([data[s.B], -np.inf * np.ones(data[s.G].shape)])
 
-    i_idx = np.array(list(range(6 * HORIZON, 10 * HORIZON + 4)))
+    i_idx = np.array(list(range(6 * horizon, 10 * horizon + 4)))
     i_l = np.zeros(len(i_idx))
     i_u = np.ones(len(i_idx))
 
@@ -151,23 +148,3 @@ def solve_mpc_miosqp(initial_point):
     results = solver.solve()
 
     return results
-
-
-if __name__ == "__main__":
-    # Example usage
-    initial_point = [0.11, 0.11, 0, 0]
-    results = solve_mpc_miosqp(initial_point)
-    print('x:', results.x[0:6 * HORIZON + 1:6])
-    print('y:', results.x[1:6 * HORIZON + 2:6])
-    print('v_x:', results.x[2:6 * HORIZON + 3:6])
-    print('v_y:', results.x[3:6 * HORIZON + 4:6])
-    print('a_x:', results.x[4:5 * HORIZON + 5:6])
-    print('a_y:', results.x[5:5 * HORIZON + 6:6])
-    print('delta_0_0:', results.x[6 * HORIZON + 4:10 * HORIZON + 5:4])
-    print('delta_0_1:', results.x[6 * HORIZON + 5:10 * HORIZON + 6:4])
-    print('delta_0_2:', results.x[6 * HORIZON + 6:10 * HORIZON + 7:4])
-    print('delta_0_3:', results.x[6 * HORIZON + 7:10 * HORIZON + 8:4])
-
-    print(results.run_time)
-    print(results.status)
-    print(results.upper_glob)

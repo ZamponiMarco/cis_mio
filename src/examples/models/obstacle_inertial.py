@@ -396,3 +396,11 @@ def example_obstacle_inertial() -> ObstacleInertial:
             from_interval(np.array([0.1, 0.4]), np.array([0.7, 0.5])),
         ]
     )
+
+def example_obstacle_inertial_reduced() -> ObstacleInertial:
+    return ObstacleInertial(
+        2,
+        [
+            from_interval(np.array([0.1, 0.4]), np.array([0.7, 0.5])),
+        ]
+    )
