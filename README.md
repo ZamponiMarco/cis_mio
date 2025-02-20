@@ -29,16 +29,6 @@ cd cis_mio
 pip install -r requirements.txt
 ```
 
-Finally, we install the [miosqp](https://github.com/osqp/miosqp) library from the source code.
-
-```
-git clone https://github.com/osqp/miosqp.git
-cd miosqp
-python setup.py install
-cd ..
-rm -rf miosqp
-```
-
 The package is now ready to be used.
 
 ### Docker Image

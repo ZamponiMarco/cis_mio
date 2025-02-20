@@ -18,11 +18,6 @@ COPY requirements.txt /cis_mio/
 
 RUN pip install -r requirements.txt
 
-RUN git clone https://github.com/osqp/miosqp.git /tmp/miosqp \
-    && cd /tmp/miosqp \
-    && python setup.py install \
-    && rm -rf /tmp/miosqp
-
 COPY src/ /cis_mio/src/
 COPY script/ /cis_mio/script/
 COPY paper_data /cis_mio/paper_data
