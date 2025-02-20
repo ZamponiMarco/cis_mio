@@ -3,6 +3,7 @@ import random
 import time
 import uuid
 from argparse import Namespace, ArgumentParser
+from typing import Optional, Callable
 
 import joblib
 from tqdm import tqdm
@@ -37,7 +38,14 @@ def parse_arguments() -> Namespace:
     return parser.parse_args()
 
 
-def run_experiment(args: Namespace, solvable: Solvable, parameter_domain: Polyhedron, max_tasks: int) -> BinaryTree:
+def run_experiment(
+        args: Namespace,
+        solvable: Solvable,
+        parameter_domain: Polyhedron,
+        max_tasks: int,
+        splitter: Optional[Callable] = None,
+        sampler: Optional[Callable] = None
+) -> BinaryTree:
     """
     Runs the tree generation experiment.
 
@@ -46,9 +54,11 @@ def run_experiment(args: Namespace, solvable: Solvable, parameter_domain: Polyhe
         solvable (Solvable): the optimization problem.
         parameter_domain (Polyhedron): the domain of the parameter space.
         max_tasks (int): the maximum number of tasks that can be executed during an experiment.
+        splitter (Callable, optional): Custom function for tree splitting. Defaults to `find_best_split_decision_tree`.
+        sampler (Callable, optional): Custom function for sampling points. Defaults to `sample_points_lhs`.
     """
-    chosen_splitter = find_best_split_decision_tree(args.seed, solvable)
-    chosen_sampler = sample_points_lhs(args.seed, solvable)
+    chosen_splitter = splitter if splitter else find_best_split_decision_tree(args.seed, solvable)
+    chosen_sampler = sampler if sampler else sample_points_lhs(args.seed, solvable)
 
     if parameter_domain is None:
         parameter_domain = from_interval(
