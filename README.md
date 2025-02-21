@@ -1,4 +1,4 @@
-[# Certified Inductive Synthesis for Online Mixed-Integer Optimization
+# Certified Inductive Synthesis for Online Mixed-Integer Optimization
 
 ## Installation
 
@@ -37,14 +37,14 @@ The package can also be run using a pre-built Docker image.
 To build the image locally, run:
 
 ```
-docker image build . -t cis_mio:iccps
-docker run -it cis_mio:iccps
+docker image build . -t cis_mio:iccpsv2
+docker run -it cis_mio:iccpsv2
 ```
 
 Alternatively, the pre-built Docker image can be pulled directly from Docker Hub:
 
 ```
-docker run -it zamponimarco/cis_mio:iccps
+docker run -it zamponimarco/cis_mio:iccpsv2
 ```
 
 ### Note
