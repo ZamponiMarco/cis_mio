@@ -5,8 +5,8 @@ cd ../..
 OUTPUT_FOLDER="resources/inertial_reduced/"
 
 # Set the range of heights, number of replicas, and zones
-START_HEIGHT=8
-END_HEIGHT=8
+START_HEIGHT=10
+END_HEIGHT=10
 REPLICAS=10  # Number of replicas per experiment
 ZONES=("S1" "S2" "S3" "S4")  # Array of zone values
 

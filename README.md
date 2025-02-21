@@ -1,4 +1,4 @@
-# Certified Inductive Synthesis for Online Mixed-Integer Optimization
+[# Certified Inductive Synthesis for Online Mixed-Integer Optimization
 
 ## Installation
 
@@ -6,21 +6,21 @@ The package can be installed manually or using Docker.
 
 ### Manual Installation
 
-The following instructions apply to an Ubuntu OS environment. The package requires installing system dependencies for building the `pycddlib` package wrapper:
+The following instructions apply to an Ubuntu OS environment. The package requires installing some system dependencies:
 
 ```
 apt-get update
-apt-get install libcdd-dev libgmp-dev python3-dev python3-venv git
+apt-get install libcdd-dev libgmp-dev python3-dev python3-venv git build-essential
 ```
 
 Next, create and activate a virtual environment:
 
 ```
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 ```
 
-Clone the repository and install dependencies:
+Clone]() the repository and install dependencies:
 
 ```
 git clone https://github.com/ZamponiMarco/cis_mio
