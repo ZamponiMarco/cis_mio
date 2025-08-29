@@ -20,7 +20,7 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-Clone]() the repository and install dependencies:
+Clone the repository and install dependencies:
 
 ```
 git clone https://github.com/ZamponiMarco/cis_mio
